@@ -11,12 +11,14 @@ export const ChangeStatus = (state, action) => {
         case 'toggle':
             return state.map(todo => {
                 return (todo.id === action.payload.id) ?
-                    { ...todo, status: !todo.status }
+                    { ...todo, status: !todo.status, isOpen: false, subtasks: todo.subtasks.map(st => {
+                            return { ...st, status: false }
+                        }) }
                         :
                     { ...todo };
             });
         case 'toggle_subtask':
-            return state.map(todo => {
+            let toggledSubtaskState = state.map(todo => {
                 return (todo.id === action.payload.id) ?
                   { ...todo, subtasks: todo.subtasks.map(st => {
                         return (st.text === action.subtask.text) ?
@@ -27,6 +29,16 @@ export const ChangeStatus = (state, action) => {
                   :
                   { ...todo };
             });
+            let areAllSubtasksDone = action.payload.subtasks.every(st => st.status);
+            if (!areAllSubtasksDone) {
+                return toggledSubtaskState.map(todo => {
+                    return (todo.id === action.payload.id) ?
+                      {...todo, status: true}
+                      :
+                      {...todo};
+                });
+            }
+            return toggledSubtaskState;
         case 'remove':
             let removedItemArray = state.filter(todo => todo.id !== action.payload.id);
             // sorting the ids according to real order

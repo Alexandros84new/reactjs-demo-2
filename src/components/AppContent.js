@@ -3,6 +3,9 @@ import { TodosContext } from "../contexts/TodosContext";
 import { Icon } from 'react-icons-kit';
 import { Subtask } from './Subtask';
 import { download } from 'react-icons-kit/iconic/download';
+import { lightbulb } from 'react-icons-kit/typicons/lightbulb'
+import { location } from 'react-icons-kit/typicons/location'
+import { notesOutline } from 'react-icons-kit/typicons/notesOutline'
 import './AppContent.css';
 
 export const AppContent = () => {
@@ -14,17 +17,40 @@ export const AppContent = () => {
         setTodoValue(value);
     }
 
+    const determineKindIcon = (kind) => {
+        switch (kind) {
+            case 'home':
+                return location;
+            case 'work':
+                return lightbulb;
+            case 'leisure':
+                return notesOutline;
+            default:
+                throw new Error();
+        }
+    }
+
     return (
         <div className={'main'}>
             <ul className={'ul-style'}>
                 {state.map(todo => {
                     return (
-                    <li key={todo.id} className={'d-flex flex-row justify-content-between align-content-center li-style m-2 p-4'}>
-                        <div className="flex-column">
-                            {todo.status ? <span><u>{todo.text}</u></span> : <del>{todo.text}</del>}
-                            <div className={'status-handler'} onClick={() => dispatch({ type: 'toggle', payload: todo })}>
-                                {todo.status ?
-                                  <span>Set this as Done</span> : <span>Set as to Do</span>}
+                    <li key={todo.id} className={'d-flex flex-row justify-content-between align-content-start li-style m-2 p-4'}>
+                        <div className="flex-column justify-content-between align-content-start">
+                            <div className={'d-flex flex-row align-content-end'}>
+                                <div className="p-2 border border-white rounded-circle"
+                                     style={{ backgroundColor: todo.status ? 'green' : 'grey', color: 'white' }}>
+                                    <Icon size={30} icon={determineKindIcon(todo.kind)} />
+                                </div>
+                                <div className="pt-3 pl-1">
+                                    {todo.status ? <span><u>{todo.text}</u></span> : <del>{todo.text}</del>}
+                                </div>
+                            </div>
+                            <div>
+                                <div className={'status-handler mt-2'} onClick={() => dispatch({ type: 'toggle', payload: todo })}>
+                                    {todo.status ?
+                                      <span>Set this as Done</span> : <span>Set as to Do</span>}
+                                </div>
                             </div>
                         </div>
                         <div className="li-style width-details p-2 d-flex flex-column justify-content-between align-content-start"
@@ -41,7 +67,7 @@ export const AppContent = () => {
                             <div className="d-flex flex-column align-content-center status-handler li-style"
                                  onClick={() => dispatch({ type: 'toggle_isOpen', payload: todo })}>
                                 <div className={'d-flex flex-row justify-content-center'}>
-                                    {todo.isOpen ? <div>Hide details</div> : <div>Show details</div>}
+                                    {todo.isOpen ? <div>Less</div> : <div>More</div>}
                                 </div>
                                 <div className={'d-flex flex-row justify-content-center mt-1'}
                                      style={{ color: todo.isOpen ? 'orange' : '#177C72' }}>
