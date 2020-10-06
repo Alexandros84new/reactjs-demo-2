@@ -1,0 +1,99 @@
+.main {
+    max-width: 400px;
+    margin: 0 auto;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.ul-style {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.li-style {
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.width-details {
+    width: 90px;
+}
+
+.subtasks-parent {
+    position: relative;
+    width: 0;
+    height: 0;
+}
+
+.subtasks {
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: -10px;
+    border-radius: 5px;
+}
+
+.remove {
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -20px;
+    right: -50px;
+    right: -50px;
+}
+
+.status-handler {
+    border: none;
+    font-size: 12px;
+    font-style: italic;
+    cursor: pointer;
+}
+
+.test-open {
+    animation-name: test-open;
+    animation-duration: 1s;
+    animation-direction: backwards;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.test-closed {
+    animation-name: test-closed;
+    animation-duration: 1s;
+    animation-direction: forwards;
+    animation-fill-mode: forwards;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@keyframes test-open {
+    0% {
+        max-width: 60px;
+        max-height: 25px;
+    }
+    100% {
+        max-width: 270px;
+        max-height: 470px;
+    }
+}
+@keyframes test-closed {
+    0% {
+        max-width: 270px;
+        max-height: 470px
+    }
+    100% {
+        max-width: 60px;
+        max-height: 25px;
+    }
+}
+
+.subtasks-handler {
+    border: none;
+    font-size: 12px;
+    font-style: italic;
+    cursor: pointer;
+}
