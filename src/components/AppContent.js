@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { TodosContext } from "../contexts/TodosContext";
 import { Icon } from 'react-icons-kit';
 import { Subtask } from './Subtask';
+import { Form } from './Form';
 import { download } from 'react-icons-kit/iconic/download';
 import { lightbulb } from 'react-icons-kit/typicons/lightbulb'
 import { location } from 'react-icons-kit/typicons/location'
@@ -11,11 +12,6 @@ import './AppContent.css';
 export const AppContent = () => {
     const { state, dispatch } = useContext(TodosContext);
     const [todoValue, setTodoValue] = useState('');
-
-    const setNewTodoValue = (event) => {
-        let value = event.target.value;
-        setTodoValue(value);
-    }
 
     const determineKindIcon = (kind) => {
         switch (kind) {
@@ -38,8 +34,8 @@ export const AppContent = () => {
                     <li key={todo.id} className={'d-flex flex-row justify-content-between align-content-start li-style m-2 p-4'}>
                         <div className="flex-column justify-content-between align-content-start">
                             <div className={'d-flex flex-row align-content-end'}>
-                                <div className="p-2 border border-white rounded-circle"
-                                     style={{ backgroundColor: todo.status ? 'green' : 'grey', color: 'white' }}>
+                                <div className="p-2 border border-secondary rounded-circle"
+                                     style={{ color: todo.status ? 'orange' : 'grey' }}>
                                     <Icon size={30} icon={determineKindIcon(todo.kind)} />
                                 </div>
                                 <div className="pt-3 pl-1">
@@ -64,14 +60,14 @@ export const AppContent = () => {
                                     &times;
                                 </span>
                             </button>
-                            <div className="d-flex flex-column align-content-center status-handler li-style"
-                                 onClick={() => dispatch({ type: 'toggle_isOpen', payload: todo })}>
+                            <div className="d-flex flex-column align-content-center status-handler li-style">
                                 <div className={'d-flex flex-row justify-content-center'}>
                                     {todo.isOpen ? <div>Less</div> : <div>More</div>}
                                 </div>
-                                <div className={'d-flex flex-row justify-content-center mt-1'}
-                                     style={{ color: todo.isOpen ? 'orange' : '#177C72' }}>
-                                    <Icon size={30} icon={download} />
+                                <div className={'d-flex flex-row justify-content-center mt-1'}>
+                                    <button onClick={() => dispatch({ type: 'toggle_isOpen', payload: todo })}>
+                                        <Icon size={30} icon={download} />
+                                    </button>
                                 </div>
                             </div>
                             <div className={'subtasks-parent'}>
@@ -91,24 +87,7 @@ export const AppContent = () => {
                         </div>
                     </li>);
                 })}
-                <li key={state.length} className={'li-style m-2 p-4'}>
-                    <div className={'d-flex flex-row justify-content-start align-content-end'}>
-                        <div className={'border-1 border-secondary'}>
-                            <span>Add Todo</span>
-                            <form>
-                                <input type="text" onChange={event => setNewTodoValue(event)} value={todoValue} />
-                            </form>
-                        </div>
-                        <div className={'border-1 border-secondary'}>
-                            <span
-                              onClick={() => {
-                                  dispatch({ type: 'add', payload: { text: todoValue }})
-                                  setTodoValue('');                          }}
-                              className="ml-4">Put this on my list
-                        </span>
-                        </div>
-                    </div>
-                </li>
+                <Form length={state.length} dispatch={dispatch} />
             </ul>
         </div>
     )
