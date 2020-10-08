@@ -12,9 +12,12 @@ let initialState = [
             { text: 'Spread butter', status: false },
             { text: 'Enjoy!', status: false }
         ] },
-    { id: 3, text: 'Do laundry', status: false, kind: 'home', isOpen: false, subtasks: [
+    { id: 3, text: 'Do laundry', status: false, kind: 'chores', isOpen: false, subtasks: [
             { text: 'Separate colors', status: false },
             { text: 'Take coins with you', status: false }
+        ] },
+    { id: 4, text: '', status: true, kind: 'chores', isOpen: false, subtasks: [
+            { text: '', status: true }
         ] }
 ];
 

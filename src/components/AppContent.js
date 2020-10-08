@@ -11,11 +11,10 @@ import './AppContent.css';
 
 export const AppContent = () => {
     const { state, dispatch } = useContext(TodosContext);
-    const [todoValue, setTodoValue] = useState('');
 
     const determineKindIcon = (kind) => {
         switch (kind) {
-            case 'home':
+            case 'chores':
                 return location;
             case 'work':
                 return lightbulb;
@@ -29,65 +28,71 @@ export const AppContent = () => {
     return (
         <div className={'main'}>
             <ul className={'ul-style'}>
-                {state.map(todo => {
+                {state.map((todo, index) => {
                     return (
-                    <li key={todo.id} className={'d-flex flex-row justify-content-between align-content-start li-style m-2 p-4'}>
-                        <div className="flex-column justify-content-between align-content-start">
-                            <div className={'d-flex flex-row align-content-end'}>
-                                <div className="p-2 border border-secondary rounded-circle"
-                                     style={{ color: todo.status ? 'orange' : 'grey' }}>
-                                    <Icon size={30} icon={determineKindIcon(todo.kind)} />
-                                </div>
-                                <div className="pt-3 pl-1">
-                                    {todo.status ? <span><u>{todo.text}</u></span> : <del>{todo.text}</del>}
-                                </div>
-                            </div>
-                            <div>
-                                <div className={'status-handler mt-2'} onClick={() => dispatch({ type: 'toggle', payload: todo })}>
-                                    {todo.status ?
-                                      <span>Set this as Done</span> : <span>Set as to Do</span>}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="li-style width-details p-2 d-flex flex-column justify-content-between align-content-start"
-                             style={{ 'border': todo.isOpen ? '1px solid orange' : '1px solid #177C72'}}>
-                            <button
-                              type="button"
-                              className={'remove border border-dark rounded close ml-4'}
-                              onClick={() => dispatch({ type: 'remove', payload: todo })}
-                              aria-label="Close">
-                                <span aria-hidden="true">
-                                    &times;
-                                </span>
-                            </button>
-                            <div className="d-flex flex-column align-content-center status-handler li-style">
-                                <div className={'d-flex flex-row justify-content-center'}>
-                                    {todo.isOpen ? <div>Less</div> : <div>More</div>}
-                                </div>
-                                <div className={'d-flex flex-row justify-content-center mt-1'}>
-                                    <button onClick={() => dispatch({ type: 'toggle_isOpen', payload: todo })}>
-                                        <Icon size={30} icon={download} />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className={'subtasks-parent'}>
-                                <div className={`subtasks ${todo.isOpen ? 'test-open' : 'test-closed' }`}
-                                     style={{ 'border': todo.isOpen ? '1px solid orange' : '1px solid #177C72'}}>
-                                    <div className={'subtasks-handler d-flex flex-row-reverse m-1'}>
-                                        <span><u>Subtasks</u></span>
+                    <li key={todo.id} className={'d-flex flex-column justify-content-between align-content-start li-style m-2 p-4'}>
+                        <div className="d-flex flex-row justify-content-between align-content-start">
+                            <div className="d-flex flex-column justify-content-between align-content-start">
+                                <div className={'d-flex flex-row align-content-end'}>
+                                    <div className="p-2 border border-secondary rounded-circle"
+                                         style={{ color: todo.status ? 'orange' : 'grey' }}>
+                                        <Icon size={30} icon={determineKindIcon(todo.kind)} />
                                     </div>
-                                    <ul className={'ul-style m-1'}>
-                                    {todo.subtasks.map((subtask, index) => {
-                                    return <Subtask index={index} subtask={subtask} dispatch={dispatch} todo={todo} />
-                                        })
-                                    }
-                                    </ul>
+                                    <div className="pt-3 pl-1">
+                                        {todo.status ? <span><u>{todo.text}</u></span> : <del>{todo.text}</del>}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className={'status-handler mt-2'} onClick={() => dispatch({ type: 'toggle', payload: todo })}>
+                                        {todo.status ?
+                                          <span>Set this as Done</span> : <span>Set as to Do</span>}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="li-style width-details p-2 d-flex flex-column justify-content-between align-content-start"
+                                 style={{ 'border': todo.isOpen ? '1px solid orange' : '1px solid #177C72'}}>
+                                <button
+                                  type="button"
+                                  className={'remove border border-dark rounded close ml-4'}
+                                  onClick={() => dispatch({ type: 'remove', payload: todo })}
+                                  aria-label="Close">
+                                    <span aria-hidden="true">
+                                        &times;
+                                    </span>
+                                </button>
+                                <div className="d-flex flex-column align-content-center status-handler li-style">
+                                    <div className={'d-flex flex-row justify-content-center'}>
+                                        {todo.isOpen ? <div>Less</div> : <div>More</div>}
+                                    </div>
+                                    <div className={'d-flex flex-row justify-content-center mt-1'}>
+                                        <button onClick={() => dispatch({ type: 'toggle_isOpen', payload: todo })}>
+                                            <Icon size={30} icon={download} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className={'subtasks-parent'}>
+                                    <div className={`subtasks ${todo.isOpen ? 'test-open' : 'test-closed' }`}
+                                         style={{ 'border': todo.isOpen ? '1px solid orange' : '1px solid #177C72'}}>
+                                        <div className={'subtasks-handler d-flex flex-row-reverse m-1'}>
+                                            <span><u>Subtasks</u></span>
+                                        </div>
+                                        <ul className={'ul-style m-1'}>
+                                        {todo.subtasks.map((subtask, index) => {
+                                        return <Subtask index={index} subtask={subtask} dispatch={dispatch} todo={todo} />
+                                            })
+                                        }
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {(index === state.length - 1) ?
+                          <Form state={state} dispatch={dispatch} />
+                          :
+                          null
+                        }
                     </li>);
                 })}
-                <Form length={state.length} dispatch={dispatch} />
             </ul>
         </div>
     )

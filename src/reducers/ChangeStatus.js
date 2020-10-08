@@ -17,6 +17,31 @@ export const ChangeStatus = (state, action) => {
                         :
                     { ...todo };
             });
+        case 'edit_todo':
+            return state.map((todo, index) => {
+                return (index === state.length - 1) ?
+                  { ...todo, text: action.payload.text, status: action.payload.status,
+                      kind: action.payload.kind }
+                  :
+                  { ...todo };
+            });
+        case 'edit_subtask':
+            let subtasksToBeEdited = state.find((todo, index) => index === state.length - 1).subtasks;
+            // edit subtasks
+            subtasksToBeEdited[action.payload.index] = { text: action.payload.text, status: true };
+            return state.map((todo, index) => {
+                return (index === state.length - 1) ?
+                  { ...todo, subtasks: subtasksToBeEdited}
+                  :
+                  { ...todo };
+            });
+        case 'add_subtask':
+            return state.map((todo, index) => {
+                return (index === state.length - 1) ?
+                  { ...todo, subtasks: [...todo.subtasks, { text: '', status: true }]}
+                  :
+                  { ...todo };
+            });
         case 'toggle_subtask':
             let toggledSubtaskState = state.map(todo => {
                 return (todo.id === action.payload.id) ?
@@ -48,13 +73,12 @@ export const ChangeStatus = (state, action) => {
                 status: true,
                 isOpen: false,
                 kind: action.payload.kind,
-                subtasks: [{ text: 'new subtask', status: true }]
+                subtasks: action.payload.subtasks
             }
             let addedItemArray = [...state, newTodo]
             // sorting the ids according to real order
             return addedItemArray.map((todo, index) => ({ ...todo, id: index }));
         default:
-            // return state;
             throw new Error();
     }
 }
