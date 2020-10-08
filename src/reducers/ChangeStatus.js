@@ -26,19 +26,35 @@ export const ChangeStatus = (state, action) => {
                   { ...todo };
             });
         case 'edit_subtask':
-            let subtasksToBeEdited = state.find((todo, index) => index === state.length - 1).subtasks;
+            let subtasksToBeEdited = state.find((todo, index) => index === action.payload.todoIndex).subtasks;
             // edit subtasks
-            subtasksToBeEdited[action.payload.index] = { text: action.payload.text, status: true };
+            subtasksToBeEdited[action.payload.subtaskIndex] = { text: action.payload.text, status: true };
             return state.map((todo, index) => {
-                return (index === state.length - 1) ?
+                return (index === action.payload.todoIndex) ?
                   { ...todo, subtasks: subtasksToBeEdited}
                   :
                   { ...todo };
             });
-        case 'add_subtask':
+        case 'remove_subtask':
+            let subtasksToBeRemoved = state.find((todo, index) => index === action.payload.todoIndex).subtasks;
+            // remove particular subtask
+            subtasksToBeRemoved.splice(action.payload.subtaskIndex, 1);
+            // reset mutated state
             return state.map((todo, index) => {
-                return (index === state.length - 1) ?
-                  { ...todo, subtasks: [...todo.subtasks, { text: '', status: true }]}
+                return (index === action.payload.todoIndex) ?
+                  { ...todo, subtasks: subtasksToBeRemoved}
+                  :
+                  { ...todo };
+            });
+        case 'add_subtask':
+            let subtasksToBeAdded = state.find((todo, index) => index === action.payload.todoIndex).subtasks;
+            // add new subtask
+            subtasksToBeAdded.splice(action.payload.subtaskIndex, 0, { text: '', status: true });
+            console.log('how many times this runs?')
+            // reset mutated state
+            return state.map((todo, index) => {
+                return (index === action.payload.todoIndex) ?
+                  { ...todo, subtasks: subtasksToBeAdded}
                   :
                   { ...todo };
             });

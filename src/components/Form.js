@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { EditSubtask } from './EditSubtask';
-import { Icon } from 'react-icons-kit';
-import { plusOutline } from 'react-icons-kit/typicons/plusOutline'
 
-export const Form = ({ state, dispatch }) => {
+export const Form = ({ state, todo, dispatch, todoIndex }) => {
 	const [text, setText] = useState('');
 	const [kind, setKind] = useState('work');
 
@@ -22,12 +20,13 @@ export const Form = ({ state, dispatch }) => {
 		event.preventDefault();
 	}
 
-	let editedTodo = state.find(todo => todo.id === state.length);
+	let editedTodo = state.find(todo => todo.id === todoIndex + 1);
+	let isThisNewTodo = todoIndex === state.length - 1
 
 	return (<li key={state.length} className={'li-style m-2 p-4'}>
 		<div className={'d-flex flex-row justify-content-start align-content-end'}>
 			<div className={'border-1 border-secondary'}>
-				<span>Add Todo Text</span>
+				{isThisNewTodo ? <span>Add new Todo:</span> : <span>Edit this Todo:</span>}
 				<form>
 					<input type="text" onChange={event => setNewTodoText(event)} value={text} />
 				</form>
@@ -40,15 +39,20 @@ export const Form = ({ state, dispatch }) => {
 						<option value="chores">Chores</option>
 						<option value="leisure">Leisure</option>
 					</select>
-					{editedTodo.subtasks.map((st, index) => {
+					{editedTodo.subtasks.map((st, subtaskIndex) => {
 						return (
-							<EditSubtask dispatch={dispatch} index={index} subtask={st} />
-						);
+							<div>
+								<EditSubtask
+									dispatch={dispatch}
+									todo={todo}
+									todoIndex={todoIndex}
+									subtaskIndex={subtaskIndex}
+									subtask={st}
+								/>
+							</div>
+							);
 					})
 					}
-					<div onClick={() => dispatch({ type: 'add_subtask'})}>
-						<Icon size={22} icon={plusOutline} />
-					</div>
 				</form>
 			</div>
 			<div className={'border-1 border-secondary'}>

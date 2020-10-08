@@ -28,7 +28,7 @@ export const AppContent = () => {
     return (
         <div className={'main'}>
             <ul className={'ul-style'}>
-                {state.map((todo, index) => {
+                {state.map((todo, todoIndex) => {
                     return (
                     <li key={todo.id} className={'d-flex flex-column justify-content-between align-content-start li-style m-2 p-4'}>
                         <div className="d-flex flex-row justify-content-between align-content-start">
@@ -86,11 +86,7 @@ export const AppContent = () => {
                                 </div>
                             </div>
                         </div>
-                        {(index === state.length - 1) ?
-                          <Form state={state} dispatch={dispatch} />
-                          :
-                          null
-                        }
+                        <Form state={state} todo={todo} dispatch={dispatch} todoIndex={todoIndex} />
                     </li>);
                 })}
             </ul>
