@@ -61,7 +61,27 @@
     overflow: hidden;
     white-space: nowrap;
 }
+
 .test-closed {
+    animation-name: test-closed;
+    animation-duration: 1s;
+    animation-direction: forwards;
+    animation-fill-mode: forwards;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.edit-open {
+    animation-name: test-open;
+    animation-duration: 1s;
+    animation-direction: backwards;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 280px;
+}
+
+.edit-closed {
+    width: 280px;
     animation-name: test-closed;
     animation-duration: 1s;
     animation-direction: forwards;
@@ -80,6 +100,7 @@
         max-height: 470px;
     }
 }
+
 @keyframes test-closed {
     0% {
         max-width: 270px;
@@ -87,6 +108,28 @@
     }
     100% {
         max-width: 60px;
+        max-height: 25px;
+    }
+}
+
+@keyframes edit-open {
+    0% {
+        max-height: 25px;
+        max-width: 280px;
+    }
+    100% {
+        max-height: 470px;
+        max-width: 280px;
+    }
+}
+
+@keyframes edit-closed {
+    0% {
+        max-height: 470px;
+        max-width: 280px;
+    }
+    100% {
+        max-width: 280px;
         max-height: 25px;
     }
 }

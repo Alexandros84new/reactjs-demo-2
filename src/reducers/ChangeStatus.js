@@ -1,4 +1,5 @@
 export const ChangeStatus = (state, action) => {
+    console.log('I am being called', action.type);
     switch (action.type) {
         case 'toggle_isOpen':
             return state.map(todo => {
@@ -37,6 +38,8 @@ export const ChangeStatus = (state, action) => {
             });
         case 'remove_subtask':
             let subtasksToBeRemoved = state.find((todo, index) => index === action.payload.todoIndex).subtasks;
+            console.log('remove_subtask', action.payload.length, subtasksToBeRemoved.length);
+            if (action.payload.length !== subtasksToBeRemoved.length) return state;
             // remove particular subtask
             subtasksToBeRemoved.splice(action.payload.subtaskIndex, 1);
             // reset mutated state
@@ -46,11 +49,34 @@ export const ChangeStatus = (state, action) => {
                   :
                   { ...todo };
             });
+        case 'change_kind':
+            return state.map((todo, index) => {
+                return (index === action.payload.todoIndex) ?
+                  { ...todo, kind: action.payload.kind }
+                  :
+                  { ...todo };
+            });
+        case 'change_text':
+            return state.map((todo, index) => {
+                return (index === action.payload.todoIndex) ?
+                  { ...todo, text: action.payload.text }
+                  :
+                  { ...todo };
+            });
+        case 'change_isEditOpen':
+            return state.map((todo, index) => {
+                return (index === action.payload.todoIndex) ?
+                  { ...todo, isEditOpen: !todo.isEditOPen }
+                  :
+                  { ...todo };
+            });
         case 'add_subtask':
             let subtasksToBeAdded = state.find((todo, index) => index === action.payload.todoIndex).subtasks;
+            console.log('add_subtask', action.payload.length, subtasksToBeAdded.length);
+            if (action.payload.length !== subtasksToBeAdded.length) return state;
             // add new subtask
             subtasksToBeAdded.splice(action.payload.subtaskIndex, 0, { text: '', status: true });
-            console.log('how many times this runs?')
+            console.log('add_subtask')
             // reset mutated state
             return state.map((todo, index) => {
                 return (index === action.payload.todoIndex) ?

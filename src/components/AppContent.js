@@ -4,9 +4,12 @@ import { Icon } from 'react-icons-kit';
 import { Subtask } from './Subtask';
 import { Form } from './Form';
 import { download } from 'react-icons-kit/iconic/download';
-import { lightbulb } from 'react-icons-kit/typicons/lightbulb'
-import { location } from 'react-icons-kit/typicons/location'
-import { notesOutline } from 'react-icons-kit/typicons/notesOutline'
+// leisure icon
+import { telescope } from 'react-icons-kit/oct/telescope'
+// work icon
+import { tools } from 'react-icons-kit/oct/tools'
+// chores icon
+import { signIn } from 'react-icons-kit/oct/signIn'
 import './AppContent.css';
 
 export const AppContent = () => {
@@ -15,11 +18,11 @@ export const AppContent = () => {
     const determineKindIcon = (kind) => {
         switch (kind) {
             case 'chores':
-                return location;
+                return signIn;
             case 'work':
-                return lightbulb;
+                return tools;
             case 'leisure':
-                return notesOutline;
+                return telescope;
             default:
                 throw new Error();
         }
@@ -64,16 +67,12 @@ export const AppContent = () => {
                                     <div className={'d-flex flex-row justify-content-center'}>
                                         {todo.isOpen ? <div>Less</div> : <div>More</div>}
                                     </div>
-                                    <div className={'d-flex flex-row justify-content-center mt-1'}>
-                                        <button onClick={() => dispatch({ type: 'toggle_isOpen', payload: todo })}>
-                                            <Icon size={30} icon={download} />
-                                        </button>
-                                    </div>
                                 </div>
                                 <div className={'subtasks-parent'}>
                                     <div className={`subtasks ${todo.isOpen ? 'test-open' : 'test-closed' }`}
                                          style={{ 'border': todo.isOpen ? '1px solid orange' : '1px solid #177C72'}}>
-                                        <div className={'subtasks-handler d-flex flex-row-reverse m-1'}>
+                                        <div className={'subtasks-handler d-flex flex-row-reverse m-1'}
+                                             onClick={() => dispatch({ type: 'toggle_isOpen', payload: todo })}>
                                             <span><u>Subtasks</u></span>
                                         </div>
                                         <ul className={'ul-style m-1'}>
