@@ -72,7 +72,7 @@
 }
 
 .edit-open {
-    animation-name: test-open;
+    animation-name: edit-open;
     animation-duration: 1s;
     animation-direction: backwards;
     overflow: hidden;
@@ -82,8 +82,8 @@
 
 .edit-closed {
     width: 280px;
-    animation-name: test-closed;
-    animation-duration: 1s;
+    animation-name: edit-closed;
+    animation-duration: 0.5s;
     animation-direction: forwards;
     animation-fill-mode: forwards;
     overflow: hidden;

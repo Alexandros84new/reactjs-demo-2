@@ -1,13 +1,13 @@
 import React from 'react';
 
 let initialState = [
-    { id: 1, text: 'Do project', status: true, kind: 'work', isEditOPen: false,
+    { id: 1, text: 'Do project', status: true, kind: 'work', isEditOpen: false,
       isOpen: false, subtasks: [
             { text: 'Call Carl', status: true },
             { text: 'Email client', status: false },
             { text: 'Finish work in CAD', status: false }
         ] },
-    { id: 2, text: 'Eat breakfast', status: false, kind: 'leisure', isEditOPen: false,
+    { id: 2, text: 'Eat breakfast', status: false, kind: 'leisure', isEditOpen: false,
       isOpen: true, subtasks: [
             { text: 'Bake bread', status: false },
             { text: 'Toast slices', status: false },

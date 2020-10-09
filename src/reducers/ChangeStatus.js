@@ -66,9 +66,9 @@ export const ChangeStatus = (state, action) => {
         case 'change_isEditOpen':
             return state.map((todo, index) => {
                 return (index === action.payload.todoIndex) ?
-                  { ...todo, isEditOpen: !todo.isEditOPen }
+                  { ...todo, isEditOpen: !todo.isEditOpen }
                   :
-                  { ...todo };
+                  { ...todo, isEditOpen: false };
             });
         case 'add_subtask':
             let subtasksToBeAdded = state.find((todo, index) => index === action.payload.todoIndex).subtasks;

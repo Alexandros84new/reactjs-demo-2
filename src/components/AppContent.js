@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
+import moment from 'moment';
 import { TodosContext } from "../contexts/TodosContext";
 import { Icon } from 'react-icons-kit';
 import { Subtask } from './Subtask';
 import { Form } from './Form';
-import { download } from 'react-icons-kit/iconic/download';
 // leisure icon
 import { telescope } from 'react-icons-kit/oct/telescope'
 // work icon
@@ -28,6 +28,12 @@ export const AppContent = () => {
         }
     }
 
+    const handleSelect = (event, todoIndex) => {
+        let kind = event.target.value;
+        // console.log('value', value);
+        dispatch({type: 'change_kind', payload: { kind, todoIndex }});
+    }
+
     return (
         <div className={'main'}>
             <ul className={'ul-style'}>
@@ -46,10 +52,7 @@ export const AppContent = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className={'status-handler mt-2'} onClick={() => dispatch({ type: 'toggle', payload: todo })}>
-                                        {todo.status ?
-                                          <span>Set this as Done</span> : <span>Set as to Do</span>}
-                                    </div>
+
                                 </div>
                             </div>
                             <div className="li-style width-details p-2 d-flex flex-column justify-content-between align-content-start"
@@ -64,8 +67,20 @@ export const AppContent = () => {
                                     </span>
                                 </button>
                                 <div className="d-flex flex-column align-content-center status-handler li-style">
+                                    <div className={'status-handler mt-2'} onClick={() => dispatch({ type: 'toggle', payload: todo })}>
+                                        {todo.status ?
+                                          <span>Set as Done</span> : <span>Set as to Do</span>}
+                                    </div>
                                     <div className={'d-flex flex-row justify-content-center'}>
-                                        {todo.isOpen ? <div>Less</div> : <div>More</div>}
+                                        <div className={'border-1 border-secondary'}>
+                                            <form>
+                                                <select id="kind" name="kind" value={todo.kind} onChange={event => handleSelect(event, todoIndex)}>
+                                                    <option value="work">Work</option>
+                                                    <option value="chores">Chores</option>
+                                                    <option value="leisure">Leisure</option>
+                                                </select>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={'subtasks-parent'}>
@@ -85,7 +100,9 @@ export const AppContent = () => {
                                 </div>
                             </div>
                         </div>
-                        <Form state={state} todo={todo} dispatch={dispatch} todoIndex={todoIndex} />
+                        <div className="d-flex flex-row align-content-center">
+                            <Form state={state} todo={todo} dispatch={dispatch} todoIndex={todoIndex} />
+                        </div>
                     </li>);
                 })}
             </ul>
