@@ -12,17 +12,20 @@ export const EditSubtask = ({ dispatch, subtaskIndex, todo, todoIndex, subtask }
 	}
 
 	const handleRemoveSubtask = (event) => {
-		event.preventDefault();
 		event.stopPropagation();
-		console.log('remove');
+		// console.log('remove');
 		dispatch({ type: 'remove_subtask', payload: { subtaskIndex, todoIndex, length: todo.subtasks.length }});
 	}
 
 	const handleAddSubtask = (event) => {
 		event.stopPropagation();
-		event.preventDefault();
-		console.log('add');
-		dispatch({ type: 'add_subtask', payload: { subtaskIndex, todoIndex, length: todo.subtasks.length }});
+		// console.log('add');
+		dispatch({ type: 'add_subtask', payload: { todoIndex }});
+	}
+
+	const toggleSubtask = (event) => {
+		event.stopPropagation();
+		dispatch({ type: 'toggle_subtask', payload: todo })
 	}
 
 	return (
@@ -40,7 +43,7 @@ export const EditSubtask = ({ dispatch, subtaskIndex, todo, todoIndex, subtask }
 			<div onClick={(event) => handleAddSubtask(event)}>
 				<Icon size={22} icon={plusOutline} />
 			</div>
-			<div className={'d-inline mr-1'}
+			<div onClick={(event) => toggleSubtask(event)}
 					 style={{ color: subtask.status ? 'green' : 'red' }}>
 				<Icon size={20} icon={check} />
 			</div>

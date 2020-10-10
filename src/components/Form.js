@@ -14,11 +14,11 @@ export const Form = ({ state, todo, dispatch, todoIndex }) => {
 
 	return (<li key={state.length} className={`li-style mt-3 ${todo.isEditOpen ? 'edit-open' : 'edit-closed'}`}>
 		<div className={'d-flex flex-column justify-content-start align-content-center'}>
-			<div className={'d-flex flex-row justify-content-center align-content-end'}>
-				<div className={'border-1 border-secondary mb-1'}
+			<div className={'d-flex flex-row justify-content-end align-content-end'}>
+				<div
 				     onClick={() => dispatch({type: 'change_isEditOpen', payload: { todoIndex }})}
 				     style={{ cursor: 'pointer' }}>
-					{isThisNewTodo ? <span>Add new Todo:</span> : <span>Edit Content:</span>}
+					{isThisNewTodo ? <span>Add new Todo</span> : <span>Edit Content</span>}
 				</div>
 			</div>
 			<div>

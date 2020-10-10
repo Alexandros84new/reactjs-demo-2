@@ -5,8 +5,7 @@ import { AppContent } from './components/AppContent';
 import { TodosContext } from "./contexts/TodosContext";
 import { ChangeStatus } from "./reducers/ChangeStatus";
 
-const App = () => {
-    const initialState = useContext(TodosContext);
+const App = ({ initialState }) => {
     const [state, dispatch] = useReducer(ChangeStatus, initialState);
 
     return (<div>
@@ -16,9 +15,20 @@ const App = () => {
     </div>);
 }
 
+// https://markoskon.com/usereducer-and-usecontext-a-performance-problem/
+// doesn't seem to help
+
+const AppParent = () => {
+    const initialState = useContext(TodosContext);
+    return (
+      <App initialState={initialState} />
+    );
+}
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppParent />
   </React.StrictMode>,
   document.getElementById('root')
 );
