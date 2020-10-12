@@ -3,12 +3,15 @@ import { Icon } from "react-icons-kit";
 import { plusOutline } from 'react-icons-kit/typicons/plusOutline'
 import { minusOutline } from 'react-icons-kit/typicons/minusOutline'
 import { check } from 'react-icons-kit/oct/check'
+// Cheatsheet: todo move somewhere appropriately
+// npx create-react-app my-app
+// npm install react-router-dom redux react-redux --save
 
 export const EditSubtask = ({ dispatch, subtaskIndex, todo, todoIndex, subtask }) => {
 
 	const setSubtaskText = (event) => {
 		let text = event.target.value;
-		dispatch({type: 'edit_subtask', payload: {text, subtaskIndex, todoIndex }});
+		dispatch({type: 'edit_subtask', payload: { text, subtaskIndex, todoIndex }});
 	}
 
 	const handleRemoveSubtask = (event) => {
@@ -20,12 +23,12 @@ export const EditSubtask = ({ dispatch, subtaskIndex, todo, todoIndex, subtask }
 	const handleAddSubtask = (event) => {
 		event.stopPropagation();
 		// console.log('add');
-		dispatch({ type: 'add_subtask', payload: { todoIndex }});
+		dispatch({ type: 'add_subtask', payload: { subtaskIndex, todoIndex, length: todo.subtasks.length  }});
 	}
 
 	const toggleSubtask = (event) => {
 		event.stopPropagation();
-		dispatch({ type: 'toggle_subtask', payload: todo })
+		dispatch({ type: 'toggle_subtask', payload: todo, subtask })
 	}
 
 	return (
