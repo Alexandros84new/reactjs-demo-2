@@ -12,12 +12,11 @@ export const Form = ({ state, todo, dispatch, todoIndex }) => {
 	let editedTodo = state.find(todo => todo.id === todoIndex + 1);
 	let isThisNewTodo = todoIndex === state.length - 1
 
-	return (<li key={state.length} className={`li-style mt-3 ${todo.isEditOpen ? 'edit-open' : 'edit-closed'}`}>
+	return (<li key={state.length} className={`mt-3 ${todo.isEditOpen ? 'edit-open' : 'edit-closed'}`}>
 		<div className={'d-flex flex-column justify-content-start align-content-center'}>
-			<div className={'d-flex flex-row justify-content-end align-content-end'}>
+			<div className={'d-flex flex-row justify-content-end align-content-end mb-3 subtasks-handler'}>
 				<div
-				     onClick={() => dispatch({type: 'change_isEditOpen', payload: { todoIndex }})}
-				     style={{ cursor: 'pointer' }}>
+				     onClick={() => dispatch({type: 'change_isEditOpen', payload: { todoIndex }})}>
 					{isThisNewTodo ? <span>Add new Todo</span> : <span>Edit Content</span>}
 				</div>
 			</div>
