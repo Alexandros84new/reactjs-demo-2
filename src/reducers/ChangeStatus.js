@@ -66,7 +66,7 @@ export const ChangeStatus = (state, action) => {
         case 'change_isEditOpen':
             return state.map((todo, index) => {
                 return (index === action.payload.todoIndex) ?
-                  { ...todo, isEditOpen: !todo.isEditOpen }
+                  { ...todo, isEditOpen: !todo.isEditOpen, isOpen: false }
                   :
                   { ...todo, isEditOpen: false };
             });
@@ -108,18 +108,25 @@ export const ChangeStatus = (state, action) => {
         case 'remove':
             let removedItemArray = state.filter(todo => todo.id !== action.payload.id);
             // sorting the ids according to real order
-            return removedItemArray.map((todo, index) => ({ ...todo, id: index }));
+            return removedItemArray.map((todo, index) => ({ ...todo, id: index + 1 }));
         case 'add_todo':
+            // this is proof why redux is still more than relevant.
+            // function called twice on its own but state is unchanged
+            console.log('add_todo', action.payload.length, state.length);
+            if (action.payload.length !== state.length) return state;
+            let todoToBeAdded = state.find((todo, index) => index === action.payload.todoIndex);
             let newTodo = {
-                text: action.payload.text,
+                text: todoToBeAdded.text,
                 status: true,
                 isOpen: false,
-                kind: action.payload.kind,
-                subtasks: action.payload.subtasks
+                isEditOpen: false,
+                kind: todoToBeAdded.kind,
+                subtasks: todoToBeAdded.subtasks
             }
-            let addedItemArray = [...state, newTodo]
-            // sorting the ids according to real order
-            return addedItemArray.map((todo, index) => ({ ...todo, id: index }));
+            const newFormItem = { text: '', status: true, kind: 'chores', isOpen: false, subtasks: [
+                    { text: '', status: true }
+                ] };
+            return [...state, newTodo, newFormItem ].map((todo, index) => ({ ...todo, id: index + 1 }));
         default:
             throw new Error();
     }

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { TodosContext } from "../contexts/TodosContext";
 import { Icon } from 'react-icons-kit';
 import { Subtask } from './Subtask';
@@ -32,6 +32,8 @@ export const Todo = ({ todo, todoIndex }) => {
 		dispatch({type: 'change_kind', payload: { kind, todoIndex }});
 	}
 
+	let isThisNewTodo = todoIndex === state.length - 1;
+
 	return (
 		<li key={todo.id} className={'d-flex flex-column justify-content-between align-content-start li-style m-2 p-4'}>
 			<div className="d-flex flex-row justify-content-between align-content-start">
@@ -52,15 +54,20 @@ export const Todo = ({ todo, todoIndex }) => {
 				</div>
 				<div className="li-style width-details p-2 d-flex flex-column justify-content-between align-content-start"
 						 style={{ 'border': todo.isOpen ? '1px solid orange' : '1px solid #177C72'}}>
-					<button
-						type="button"
-						className={'remove border border-dark rounded close ml-4'}
-						onClick={() => dispatch({ type: 'remove', payload: todo })}
-						aria-label="Close">
+					{isThisNewTodo ?
+						// you shouldn't be able to remove new todo
+						null
+						:
+						<button
+							type="button"
+							className={'remove border border-dark rounded close ml-4'}
+							onClick={() => dispatch({ type: 'remove', payload: todo })}
+							aria-label="Close">
 							<span aria-hidden="true">
 									&times;
 							</span>
-					</button>
+						</button>
+					}
 					<div className="d-flex flex-column align-content-center status-handler li-style">
 						<div className={'d-flex flex-row justify-content-center'}>
 							<div className={'border-1 border-secondary'}>

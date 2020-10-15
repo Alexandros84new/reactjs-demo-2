@@ -35,15 +35,15 @@
 }
 
 .remove {
-    width: 18px;
-    height: 18px;
+    width: 23px;
+    height: 23px;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    top: -20px;
-    right: -50px;
+    top: -30px;
+    right: -55px;
 }
 
 .status-handler {
